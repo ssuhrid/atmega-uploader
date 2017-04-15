@@ -264,12 +264,16 @@ class GUI:
         D.grid(row=1,column=2,padx=10)
         buttErase.grid(row=1,column=3,padx=10)
         C.grid(row=1,column=4,padx=10)
-        B.grid(row=1,column=5,padx=10)
+        B.grid(row=1,column=5,padx=10,pady=10)
+        statusBar=Label(f1,text="Programmer Ready",bg="#308446",width=85,fg="#ffffff") #Status Green
+        statusBar=Label(f1,text="Programmer Busy",bg="#cc0605",width=85,fg="#ffffff",height=2) #Status Red
+        statusBar.grid(row=2,column=0, columnspan=6,pady=10)
         row+=1
+        
 
         # Verbose
         f3=Frame(master)
-        f3.grid(row=row,padx=10,pady=20)
+        f3.grid(row=row,padx=10,pady=10)
         labelRead=Label(f3,text="Read")
         labelRead.grid(row=0,column=0)
         self.reading = ttk.Progressbar(f3,orient=HORIZONTAL, length=200, mode='determinate')
