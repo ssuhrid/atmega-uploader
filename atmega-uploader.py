@@ -155,10 +155,10 @@ class GUI:
         self.E1.insert(0, file_path)
     def erase(self):
         ic=self.getIcCode()
-        self.runProcess('avrdude -C avrdude.conf -p %s -c usbasp -e'%(ic)) #Erase
+        self.runProcess('avrdude\avrdude -C avrdude\avrdude.conf -p %s -c usbasp -e'%(ic)) #Erase
     def lock(self):
         ic=self.getIcCode()
-        self.runProcess('avrdude -C avrdude.conf -p %s -c usbasp -D -U lock:w:0x00:m'%(ic)) #Write    
+        self.runProcess('avrdude\avrdude -C avrdude\avrdude.conf -p %s -c usbasp -D -U lock:w:0x00:m'%(ic)) #Write    
     def write(self):
         ic=self.getIcCode()
         file_path=self.E1.get()
@@ -174,7 +174,7 @@ class GUI:
         if not file_name == '':
             self.display(msg)
         pass
-        self.runProcess('avrdude -C avrdude.conf -p %s -c usbasp -D -U flash:w:%s:i'%(ic,file_path)) #Write
+        self.runProcess('avrdude\avrdude -C avrdude\avrdude.conf -p %s -c usbasp -D -U flash:w:%s:i'%(ic,file_path)) #Write
     def auto(self):
         self.check()
         if self.f1 == 1 :
@@ -194,7 +194,7 @@ class GUI:
         
     def check(self):
         ic=self.getIcCode()
-        self.runProcess('avrdude -C avrdude.conf -p %s -c usbasp'%(ic)) # Check Device
+        self.runProcess('avrdude\avrdude -C avrdude\avrdude.conf -p %s -c usbasp'%(ic)) # Check Device
     def createMenu(self,master):
         self.frame = Frame(master)
         menubar = Menu(master)
