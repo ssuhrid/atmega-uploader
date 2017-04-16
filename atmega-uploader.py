@@ -27,6 +27,9 @@ class GUI:
         if msg == 'avrdude: ERROR: No valid record found in Intel Hex file "%s"'%(self.E1.get()):
             ans= 'Invalid File'
             self.f1=0
+        if msg == 'avrdude: can\'t open input file : Invalid argument':
+            ans= 'Invalid File'
+            self.f1=0
         if msg == 'avrdude: error: program enable: target doesn\'t answer. 1':
             ans= 'Error: Check Device'
             self.f1=0
@@ -109,6 +112,7 @@ class GUI:
         self.bar = ''
         line = ''
         self.cnt = 0
+        self.statusBar.config(text="Programmer Busy",bg="#cc0605",width=88) #Status Red
         while (True):
             retcode = self.p.poll()  # returns None while subprocess is running
             c = self.p.stdout.read(1)
@@ -138,6 +142,8 @@ class GUI:
                 line = line + c
             if c == '' and retcode is not None:
                 break
+        self.statusBar.config(text="Programmer Ready",bg="#308446") #Status Green
+
     
     ##        if(retcode is not None and c=='\n'):
     ##            break
@@ -226,7 +232,7 @@ class GUI:
         self.fErasing = False
         self.bar=''
         self.createMenu(master)
-        # master.geometry('{}x{}'.format(400, 300))
+##        master.geometry('{}x{}'.format(620, 300))
 
         row=0
 
@@ -246,9 +252,9 @@ class GUI:
         f1=Frame(master)
         f1.grid(row=row)
         L1 = Label(f1, text="Hex File:")
-        L1.grid(row=0,column=1,padx=20,pady=10)
+        L1.grid(row=0,column=1,padx=20,pady=30)
         self.E1 = Entry(f1, bd =5,width=40)
-        self.E1.grid(row=0,column=2,sticky=E+W,columnspan=3,padx=20,pady=20)
+        self.E1.grid(row=0,column=2,sticky=E+W,columnspan=3,padx=20,pady=0)
         openButton = Button(f1, text ="Browse...", command = self.openFile,width=10)
         openButton.grid(row=0,column=5)
         
@@ -264,16 +270,16 @@ class GUI:
         D.grid(row=1,column=2,padx=10)
         buttErase.grid(row=1,column=3,padx=10)
         C.grid(row=1,column=4,padx=10)
-        B.grid(row=1,column=5,padx=10,pady=10)
-        statusBar=Label(f1,text="Programmer Ready",bg="#308446",width=85,fg="#ffffff") #Status Green
-        statusBar=Label(f1,text="Programmer Busy",bg="#cc0605",width=85,fg="#ffffff",height=2) #Status Red
-        statusBar.grid(row=2,column=0, columnspan=6,pady=10)
+        B.grid(row=1,column=5,padx=10,pady=0)
+        self.statusBar=Label(f1,text="Programmer Ready",bg="#308446",width=88,fg="#ffffff") #Status Green
+##        self.statusBar=Label(f1,text="Programmer Busy",bg="#cc0605",width=88,fg="#ffffff",height=1) #Status Red
+        self.statusBar.grid(row=2,column=0, columnspan=7,pady=20)
         row+=1
         
 
         # Verbose
         f3=Frame(master)
-        f3.grid(row=row,padx=10,pady=10)
+        f3.grid(row=row,padx=10,pady=0)
         labelRead=Label(f3,text="Read")
         labelRead.grid(row=0,column=0)
         self.reading = ttk.Progressbar(f3,orient=HORIZONTAL, length=200, mode='determinate')
@@ -300,12 +306,13 @@ class GUI:
         self.text.grid(row=0,column=0)
         textY.grid(row=0, column=1, sticky=N + S)
         # textX.grid(row=1, column=0, sticky=E + W)
-
+        row+=1
+        
         # Footer
         f4 = Frame(master)
-        # f4.pack(side=TOP)
-        text2 = Text(f4,height=10)
-        # text2.pack()
+        text2 = Label(f4,height=1)
+        text2.grid(row=0)
+        f4.grid(row=row)
 
 root = Tk()
 root.title('AVR Uploader v2.3')
