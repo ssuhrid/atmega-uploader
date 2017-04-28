@@ -169,7 +169,7 @@ class GUI:
         ic=self.getIcCode()
         self.runProcess('avrdude\\avrdude -C avrdude\\avrdude.conf -p %s -c usbasp -D -U efuse:w:0xfd:m'%(ic)) #eFuse    
         self.runProcess('avrdude\\avrdude -C avrdude\\avrdude.conf -p %s -c usbasp -D -U hfuse:w:0xde:m'%(ic)) #hfuse    
-##        self.runProcess('avrdude\\avrdude -C avrdude\\avrdude.conf -p %s -c usbasp -D -U lfuse:w:0xff:m'%(ic)) #lFuse    
+        self.runProcess('avrdude\\avrdude -C avrdude\\avrdude.conf -p %s -c usbasp -D -U lfuse:w:0xff:m'%(ic)) #lFuse    
     def write(self):
         ic=self.getIcCode()
         file_path=self.E1.get()
@@ -191,9 +191,11 @@ class GUI:
         if self.f1 == 1 :
             self.erase()
             if self.f1 == 1:
-                self.write()
+                self.init()
                 if self.f1 == 1:
-                    self.lock()
+                    self.write()
+                    if self.f1 == 1:
+                        self.lock()
         if self.f1 == 1:
             self.display('Auto Process Complete')
         else:
@@ -262,13 +264,13 @@ class GUI:
         # f2=Frame(master)
         # f2.grid(row=1,pady=10)
         C = Button(f1, text="Write", command=self.write,width=10)
-        D = Button(f1, text="Initialize", command=self.check,width=10)
+        D = Button(f1, text="Initialize", command=self.init,width=10)
         B = Button(f1, text ="Lock", command = self.lock,width=10)
         buttErase = Button(f1, text="Erase", command=self.erase,width=10)
         buttAuto = Button(f1, text="Auto", command=self.auto,width=10)
         buttAuto.grid(row=1,column=1,padx=10)
-        D.grid(row=1,column=2,padx=10)
-        buttErase.grid(row=1,column=3,padx=10)
+        D.grid(row=1,column=3,padx=10)
+        buttErase.grid(row=1,column=2,padx=10)
         C.grid(row=1,column=4,padx=10)
         B.grid(row=1,column=5,padx=10,pady=0)
         self.statusBar=Label(f1,text="Programmer Ready",bg="#308446",width=88,fg="#ffffff") #Status Green
